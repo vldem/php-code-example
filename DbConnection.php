@@ -96,7 +96,7 @@ class DbConnection
 
     /**
      * Execute a query that returns some data records (usually SELECT query) and get field value of specified row and column
-     * @param string $sql_str     SQL string
+     * @param string $sqlStr      SQL string
      * @param array  $rowIndex    (optional) row index number, default value is 0 that means 1st record of the query result
      * @param array  $colIndex    (optional) column index number, default value is 0 that means 1st column of the query result
      * @param array  $tags        (optional) array of parameters' placeholders (like '{var1}' ) that will be replaced by values array
@@ -105,8 +105,8 @@ class DbConnection
      * @return string             with fields value or empty sting if empty result.
      * @throws \RuntimeException  if some error occurred during sql execution
      */
-    public function queryGetValue( $sql_str, $rowIndex = 0, $colIndex = 0, $tags = array(), $values = array(), $debug = 0) {
-        $sql = $this->setValuesToParams( $sql_str, $tags, $values);
+    public function queryGetValue( $sqlStr, $rowIndex = 0, $colIndex = 0, $tags = array(), $values = array(), $debug = 0) {
+        $sql = $this->setValuesToParams( $sqlStr, $tags, $values);
 
         $fieldValue = '';
         if ($debug) {
@@ -131,7 +131,7 @@ class DbConnection
 
     /**
      * Execute a query that returns some data records (usually SELECT query) and get specified column of query result.
-     * @param string $sql_str     SQL string
+     * @param string $sqlStr      SQL string
      * @param array  $colIndex    (optional) column index number, default value is 0 that means 1st column of the query result
      * @param array  $tags        (optional) array of parameters' placeholders (like '{var1}' ) that will be repleced by values array
      * @param array  $values      (optional) array of values that will replace parameters' placeholders.
@@ -139,8 +139,8 @@ class DbConnection
      * @return array              with fields value or empty array if empty result.
      * @throws \RuntimeException  if some error occurred during sql execution
      */
-    public function queryGetCol( $sql_str, $colIndex = 0, $tags = array(), $values = array(), $debug = 0) {
-        $sql = $this->setValuesToParams( $sql_str, $tags, $values);
+    public function queryGetCol( $sqlStr, $colIndex = 0, $tags = array(), $values = array(), $debug = 0) {
+        $sql = $this->setValuesToParams( $sqlStr, $tags, $values);
 
         if ($debug) {
             var_dump( $sql );
@@ -169,16 +169,16 @@ class DbConnection
 
     /**
      * Execute a query that does not return some data records. Usually CREATE, UPDATE, INSERT queries.
-     * @param string $sql_str     SQL string
+     * @param string $sqlStr      SQL string
      * @param array  $tags        (optional) array of parameters' placeholders (like '{var1}') that will be repleced by values array
      * @param array  $values      (optional) array of values that will replace parameters' placeholders.
      * @param int    $debug       (optional) 1 - debug mode on, 0 (default) - debug mode off
      * @return int                0 there   are not records affected for SQL query, grater 0 number of affected rows by SQL query.
      * @throws \RuntimeException  if some error occured during sql execution
      */
-    public function queryDo( $sql_str, $tags = array(), $values = array(), $debug = 0 ) {
+    public function queryDo( $sqlStr, $tags = array(), $values = array(), $debug = 0 ) {
 
-        $sql = $this->setValuesToParams( $sql_str, $tags, $values);
+        $sql = $this->setValuesToParams( $sqlStr, $tags, $values);
 
         if ($debug) {
             var_dump($sql);
@@ -197,13 +197,13 @@ class DbConnection
 
     /**
      * Execute query that requires to bind some variables to SQL parameters. Usually INSERT, REPLACE, UPDATE queries.
-     * @param string  $sql_str          SQL string
+     * @param string  $sqlStr           SQL string
      * @param string  $bindTypesString  string of types of parameters. Like 'ssissds'? where 's' is string, 'i' - integer, 'd' - datetime.
      * @param array   $params           array of values that will be binded with ? tags.
      * @return int                      -1  parameters are empty, 0 - there are not records affected for SQL query, grater 0 - number of affected rows by SQL query.
      * @throws \RuntimeException        if some error occured during sql execution
      */
-    public function queryBind( $sql, $bindTypesString, $params ) {
+    public function queryBind( $sqlStr, $bindTypesString, $params ) {
         if ( isset($params) and isset($bindTypesString) ) {
             $bindParams[] = &$bindTypesString;
             $p_cnt = count( $params );
@@ -211,7 +211,7 @@ class DbConnection
                 $bindParams[] = &$params[$i];
             }
             try{
-                $stmt = mysqli_prepare( $this->dbHandler, $sql );
+                $stmt = mysqli_prepare( $this->dbHandler, $sqlStr );
                 call_user_func_array( array($stmt, 'bind_param'), $bindParams );
                 $stmt->execute();
                 $rows = $stmt->affected_rows;
@@ -219,7 +219,7 @@ class DbConnection
                 return $rows;
             }
             catch ( Exception $e ){
-                throw new \RuntimeException( $e->getMessage(). "\nQuery is " . $sql );
+                throw new \RuntimeException( $e->getMessage(). "\nQuery is " . $sqlStr );
             }
         } else {
             return -1;
@@ -228,21 +228,21 @@ class DbConnection
 
     /**
      * Substitute values to parameters tags in the string.
-     * @param string $sql_str  SQL string
+     * @param string $sqlStr   SQL string
      * @param array  $tags     array of parameter tags (like '{var1}') that will be replaced by values array
      * @param array  $values   array of values that will replace parameter tags.
      * @return string          updated sql string.
      */
-    private function setValuesToParams( $sql, $tags = array(), $values = array() ) {
+    private function setValuesToParams( $sqlStr, $tags = array(), $values = array() ) {
 
         if ( isset($tags) and isset($values) ) {
-            $cnt_tags = count($tags);
-            $cnt_val = count($values);
-            if ( $cnt_tags > 0 and $cnt_val > 0 and $cnt_tags == $cnt_val ) {
-                $sql = str_replace($tags, $values, $sql);
+            $cntTags = count($tags);
+            $cntVal = count($values);
+            if ( $cntTags > 0 and $cntVal > 0 and $cntTags == $cntVal ) {
+                $sqlStr = str_replace($tags, $values, $sqlStr);
             }
         }
-        return $sql;
+        return $sqlStr;
     }
 
 }
