@@ -66,15 +66,15 @@ class DbConnection
 
     /**
      * Execute a query that returns some data records. Usually SELECT query.
-     * @param string $sql_str     SQL string
+     * @param string $sqlStr      SQL string
      * @param array  $tags        (optional) array of parameters' placeholders (like '{var1}') that will be replaced by values array
      * @param array  $values      (optional) array of values that will replace parameters' placeholders.
      * @param int    $debug       (optional) 1 - debug mode on, 0 (default) - debug mode off
      * @return array/false        array of rows of SQL query result. false if empty result.
      * @throws \RuntimeException  if some error occurred during sql execution
      */
-    public function querySelect($sql_str, $tags = array(), $values = array(), $debug = 0) {
-        $sql = $this->setValuesToParams( $sql_str, $tags, $values);
+    public function querySelect($sqlStr, $tags = array(), $values = array(), $debug = 0) {
+        $sql = $this->setValuesToParams( $sqlStr, $tags, $values);
 
         $rows = false;
         if ($debug) {
