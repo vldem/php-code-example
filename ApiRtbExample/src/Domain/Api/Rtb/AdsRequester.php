@@ -24,8 +24,10 @@ final class AdsRequester
      * The constructor.
      *
      * @param RtbRequestTemplate $RtbRequestTemplate The RTB request template
+     * @param RtbMessage $rtbMessage The RTB messages
      * @param DbConnection $dbConnection The Databse connection
      * @param Helpper $helper The helpper
+     * @param LoggerFactory $loggerFactory The logger
      */
     public function __construct(
         RtbRequestTemplate $rtbRequestTemplate,
