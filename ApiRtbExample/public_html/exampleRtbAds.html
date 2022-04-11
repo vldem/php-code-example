@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="/js/libs.min.js"></script>
+
+    <title>Document</title>
+
+    <script>
+        (function ($){
+            $(document).ready(function() {
+                var today = new Date();
+                var args="t="+today;
+                $('#result_RTB_b').load("/api/rtb/kru/300/250/0.10",args,function(response, status, xhr){
+                   if (status == "error") {
+                     var msg = "Sorry but there was an error: ";
+                     $("#error").html(msg + xhr.status + " " + xhr.statusText);
+                   }else{
+                     var res = document.getElementById('result_RTB_b').innerHTML;
+                     if (res.indexOf("no bid") != -1){
+                        document.getElementById('result_RTB_b').innerHTML = "";
+                        //alert("no bid");
+                     }
+                   }
+                });
+            });
+        })(jQuery);
+    </script>
+
+</head>
+<body>
+    <h1>This is RTB ads</h1>
+    <div id="result_RTB_b"></div>
+
+</body>
+</html>
