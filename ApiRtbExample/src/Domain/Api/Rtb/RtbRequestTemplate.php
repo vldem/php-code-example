@@ -67,8 +67,8 @@ final class RtbRequestTemplate
     /**
      * Get XML request template for needed broker
      * @param string $bid The broker id
-     * @param array $params (optional) list of parameter's tags to substitude with values
-     * @param array $values (optional) list of parameter's values to substitude in tags
+     * @param array $params (optional) list of parameter's tags to substitute with values
+     * @param array $values (optional) list of parameter's values to substitute in tags
      * @return string XML string of request
      */
     public function getRequestTemplate(string $bid, array $params = array(), array $values = array()): string
@@ -81,8 +81,8 @@ final class RtbRequestTemplate
     /**
      * Get api request URL
      * @param string $bid The broker id
-     * @param array $params (optional) list of parameter's tags to substitude with values
-     * @param array $values (optional) list of parameter's values to substitude in tags
+     * @param array $params (optional) list of parameter's tags to substitute with values
+     * @param array $values (optional) list of parameter's values to substitute in tags
      * @return string URL string of request
      */
     public function getApiURL( string $bid, array $params = array(), array $values = array() ): string
