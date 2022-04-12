@@ -13,12 +13,14 @@ class DbConnection
     /**
      * Constructor
      * Establish connection with database through mysqli PHP module.
+     *
      * @param string $host  The host name for DB connection.
      * @param string $username  The user name for DB connection.
      * @param string $password  The password for DB connection.
      * @param string $database  The database name for DB connection.
      * @throws \InvalidArgumentException  if connection parameters are empty.
      * @throws \RuntimeException          if some error occurred during establishing connection to database.
+     *
      */
     public function __construct( string $host, string $username, string $password, string $database ) {
 
