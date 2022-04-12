@@ -15,9 +15,9 @@ final class Helpper
     /**
      * The constructor.
      *
-     * @param array $settings The Databse connection
+     * @param array $settings The settings of helpper
      */
-    public function __construct( array $setings )
+    public function __construct( array $settings )
     {
         $this->settings = $settings;
     }
