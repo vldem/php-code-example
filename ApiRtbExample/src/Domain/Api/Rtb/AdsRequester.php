@@ -49,7 +49,7 @@ final class AdsRequester
     /**
      * Rerquest ads code from RTB Exchange.
      *
-     * @param int $brokerId The broker id
+     * @param string $brokerId The broker id
      * @param int $width The width of requested ads
      * @param int $height The height of requested ads
      * @param float $bidfloor The proposed bidfloor in currency format x.xx  of requested ads
@@ -92,7 +92,7 @@ final class AdsRequester
                 $this->logger->info( "response: " , array($apiHeader, $apiResults) );
             }
 
-            $result = $this->processResponse( $apiHeader, $apiResults );
+            $result = $this->processResponse( $apiHeader, $apiResults, $brokerId, $cmd );
 
         }
         return $result;
@@ -103,18 +103,17 @@ final class AdsRequester
      * Process response from RTB Exchange
      * @param string $apiHeader The response's header
      * @param string $apiResult The response's body
+     * @param string $brokerId The broker id
+     * @param string $cmd The XML request's body
      *
      * @return string RTB code if success or error message if failed
      */
-    private function processResponse( string $apiHeader, string $apiResults ): string
+    private function processResponse( string $apiHeader, string $apiResults, string $brokerId, string $cmd ): string
     {
+        $statValue = '';
         if ( preg_match("/HTTP\/1.1 204/i", $apiHeader) ) {
             // no content
-            $res = $this->dbConnection->queryBind(
-                $this->rtbRequestTemplate->getQuery('addRecToRtbStat'),
-                'sss',
-                array( $brokerId, $cmd ,'204' )
-            );
+            $statValue = '204';
             $result = $this->rtbMessage->getMessage('apiNoBid') . " 204";
         } elseif ( !preg_match("/HTTP\/1.1 200 OK/i", $apiHeader) ) {
             //error during request
@@ -123,26 +122,19 @@ final class AdsRequester
             } else {
                $respcode = substr($apiHeader,0,20);
             }
-
-            $res = $this->dbConnection->queryBind(
-                $this->rtbRequestTemplate->getQuery('addRecToRtbStat'),
-                'sss',
-                array($this->bid,$cmd,$respcode)
-            );
-
+            $statValue = $respcode;
+            
             $result = $this->rtbMessage->getMessage('apiWrongStatus') . " header: $apiHeader";
+            
         } else {
             // there is response from RTB Exchange
             $apiResults = json_decode($apiResults);
 
             if ($apiResults->nbr <> '') {
                 //bid did not win, save the reason in DB
-                $res = $this->dbConnection->queryBind(
-                    $this->rtbRequestTemplate->getQuery('addRecToRtbStat'),
-                    'sss',
-                    array($this->bid,$cmd,'nbr:'. $apiResults->nbr )
-                );
+                $statValue = 'nbr:'. $apiResults->nbr;
                 $result = $this->rtbMessage->getMessage('apiNoBid') . ' nbr->'. $apiResults->nbr;
+                
             } else {
                 // bid won, prepare data for ads code
                 $price = $apiResults->seatbid[0]->bid[0]->price;
@@ -153,25 +145,24 @@ final class AdsRequester
 
                 if ($adm <> '') {
                     // return ads code
-                    $res = $this->dbConnection->queryBind(
-                        $this->rtbRequestTemplate->getQuery('addRecToRtbStat'),
-                        'sss',
-                        array( $this->bid, $cmd, '200')
-                    );
-
+                    $statValue = '200';
                     $result = $adm;
+                    
                 } else {
                     // something is wrong, adm is empty
-                    $res = $this->dbConnection->queryBind(
-                        $this->rtbRequestTemplate->getQuery('addRecToRtbStat'),
-                        'sss',
-                        array($this->bid,$cmd,'adm is empty')
-                    );
-
+                    $statValue = 'adm is empty';
                     $result = $this->rtbMessage->getMessage('apiNoBid');
+                    
                 }
             }
         }
+        // store statistic in DB 
+        $res = $this->dbConnection->queryBind(
+            $this->rtbRequestTemplate->getQuery('addRecToRtbStat'),
+            'sss',
+            array( $brokerId, $cmd , $statValue )
+        );
+
         return $result;
 
     }
