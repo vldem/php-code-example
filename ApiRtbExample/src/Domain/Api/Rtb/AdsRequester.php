@@ -140,8 +140,8 @@ final class AdsRequester
                 $price = $apiResults->seatbid[0]->bid[0]->price;
                 $nurl = $apiResults->seatbid[0]->bid[0]->nurl;
                 $adm = $apiResults->seatbid[0]->bid[0]->adm;
-                $nurl=str_replace('${AUCTION_PRICE}',  $price , $nurl);
-                $adm=str_replace('${AUCTION_PRICE}',  $price , $adm);
+                $nurl = str_replace('${AUCTION_PRICE}',  $price , $nurl);
+                $adm = str_replace('${AUCTION_PRICE}',  $price , $adm);
 
                 if ($adm <> '') {
                     // return ads code
