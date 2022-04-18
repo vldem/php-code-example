@@ -41,7 +41,7 @@ final class CreateOfferMessageAction
      *
      * @param ServerRequestInterface $request The request
      * @param ResponseInterface $response The response
-     * @param $args The arhuments from route
+     * @param $args The arguments from route
      *
      * @return ResponseInterface The response
      */
