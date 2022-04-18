@@ -2,7 +2,7 @@
 
 namespace App\Domain\Api\Rtb;
 
-use App\Factory\DbConnection;
+use App\Domain\Service\DbConnection;
 use App\Domain\Service\Helpper;
 use App\Domain\Api\Rtb\RtbRequestTemplate;
 use App\Domain\Api\Rtb\RtbMessage;
