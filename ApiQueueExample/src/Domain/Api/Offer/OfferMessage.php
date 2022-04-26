@@ -9,7 +9,7 @@ use App\Domain\Service\Helper;
  */
 final class OfferMessage
 {
-    private Helpper $helper;
+    private Helper $helper;
 
     private $messages = [
         'successOfferLoadMessage' => "Offer loading request has been successfuly sent to queue for brokerId {brokerId}.",
@@ -22,7 +22,7 @@ final class OfferMessage
      */
     public function __construct( Helper $helper )
     {
-        $this->helpper = $helpper;
+        $this->helper = $helper;
     }
 
     /**
