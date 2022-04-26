@@ -2,14 +2,14 @@
 
 namespace App\Domain\Api\Offer;
 
-use App\Domain\Service\Helpper;
+use App\Domain\Service\Helper;
 
 /**
  * Domain.
  */
 final class OfferMessage
 {
-    private Helpper $helpper;
+    private Helpper $helper;
 
     private $messages = [
         'successOfferLoadMessage' => "Offer loading request has been successfuly sent to queue for brokerId {brokerId}.",
@@ -18,9 +18,9 @@ final class OfferMessage
     /**
      * The constructor.
      *
-     * @param Helpper $helper The helpper
+     * @param Helper $helper The helper
      */
-    public function __construct( Helpper $helpper )
+    public function __construct( Helper $helper )
     {
         $this->helpper = $helpper;
     }
@@ -35,7 +35,7 @@ final class OfferMessage
     public function getMessage( string $name, $params=array(), $values=array() ): string
     {
         $msg =  $this->messages[$name];
-        return  $this->helpper->setValuesToParams( $msg, $params, $values );
+        return  $this->helper->setValuesToParams( $msg, $params, $values );
     }
 
 }
