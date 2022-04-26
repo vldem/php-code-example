@@ -7,7 +7,7 @@ use \GeoIp2\Database\Reader;
 /**
  * Service.
  */
-final class Helpper
+final class Helper
 {
 
     private $settings;
