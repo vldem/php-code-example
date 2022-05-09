@@ -14,12 +14,24 @@ use Psr\Log\LoggerInterface;
  */
 final class LoggerFactory
 {
+    /**
+     * @var string
+     */
     private string $path;
 
+    /**
+     * @var int
+     */
     private int $level;
 
+    /**
+     * @var array
+     */
     private array $handler = [];
 
+    /**
+     * @var ?LoggerInterface
+     */
     private ?LoggerInterface $testLogger;
 
     /**
