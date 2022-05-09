@@ -6,8 +6,14 @@ namespace App\Domain\Offer;
  */
 final class OfferLoadMessage
 {
+    /**
+     * @var string
+     */
     public string $brokerId;
 
+    /**
+     * The constuctor
+     */
     public function __construct(string $brokerId)
     {
         $this->brokerId = $brokerId;
