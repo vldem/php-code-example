@@ -10,6 +10,9 @@ use App\Domain\Postback\PostbackMessage;
 
 final class RabbitMessageDispatcher implements MessageDispatcherInterface
 {
+    /**
+     * @var AMQPChannel
+     */
     private AMQPChannel $channel;
 
     public function __construct(AMQPChannel $channel)
@@ -23,7 +26,6 @@ final class RabbitMessageDispatcher implements MessageDispatcherInterface
      * @param object $event The message
      *
      * @throws JsonException
-     *
      * @return object The message
      */
     public function dispatch(object $event)
