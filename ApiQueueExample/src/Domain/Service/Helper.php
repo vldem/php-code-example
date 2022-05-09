@@ -9,7 +9,9 @@ use \GeoIp2\Database\Reader;
  */
 final class Helper
 {
-
+    /**
+     * @var array
+     */
     private $settings;
 
     /**
@@ -24,7 +26,7 @@ final class Helper
     }
 
     /**
-     * get server's remote address
+     * gets server's remote address
      *
      * @return string ip address
      *
@@ -41,7 +43,7 @@ final class Helper
     }
 
     /**
-     * get country code from ip address by geoip database
+     * gets country code from ip address by geoip database
      *
      * @param $ip The IP address
      *
