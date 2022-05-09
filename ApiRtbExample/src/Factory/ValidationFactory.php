@@ -7,7 +7,7 @@ use Selective\Validation\Converter\CakeValidationConverter;
 use Selective\Validation\ValidationResult;
 
 /**
- * Validation factory.
+ * Validation factory
  */
 final class ValidationFactory
 {
