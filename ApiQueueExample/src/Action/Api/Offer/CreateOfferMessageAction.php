@@ -16,9 +16,20 @@ use Selective\Validation\Exception\ValidationException;
  */
 final class CreateOfferMessageAction
 {
+    /**
+     * @var OfferMessageSender
+     */
     private OfferMessageSender $offerMessageSender;
+    
+    /**
+     * @var ValidationFactory
+     */
     private ValidationFactory $validationFactory;
-    private OfferMessage $offerMessage;
+    
+    /**
+     * @var OfferMessageSender
+     */
+    private OfferMessageSender $offerMessage;
 
 
     /**
@@ -41,15 +52,17 @@ final class CreateOfferMessageAction
      *
      * @param ServerRequestInterface $request The request
      * @param ResponseInterface $response The response
-     * @param $args The arguments from route
+     * @param $args The arguments from the route
      *
      * @return ResponseInterface The response
+     * @throws ValidationException If validation fails.
      */
     public function __invoke(
         ServerRequestInterface $request,
         ResponseInterface $response,
         array $args
-    ): ResponseInterface {
+    ): ResponseInterface 
+    {
 
         // create validator
         $validator = $this->createValidator();
