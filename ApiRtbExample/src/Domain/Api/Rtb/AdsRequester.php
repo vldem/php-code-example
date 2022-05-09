@@ -14,10 +14,30 @@ use Psr\Log\LoggerInterface;
  */
 final class AdsRequester
 {
+    /**
+     * @var RtbRequestTemplate
+     */
     private RtbRequestTemplate $rtbRequestTemplate;
+    
+    /**
+     * @var RtbMessage
+     */
     private RtbMessage $rtbMessage;
+    
+    /**
+     * @var DbConnection
+     */
     private DbConnection $dbConnection;
+    
+    /**
+     * @var Helpper
+     */
     private Helpper $helpper;
+    
+    
+    /**
+     * @var LoggerInterface
+     */
     private LoggerInterface $logger;
 
     /**
@@ -118,11 +138,12 @@ final class AdsRequester
         } elseif ( !preg_match("/HTTP\/1.1 200 OK/i", $apiHeader) ) {
             //error during request
             if ( $apiHeader == '') {
-               $respcode = 'request timeout';
+               $respCode = 'request timeout';
             } else {
-               $respcode = substr($apiHeader,0,20);
+               $respCode = substr($apiHeader,0,20);
             }
-            $statValue = $respcode;
+            
+            $statValue = $respCode;
             
             $result = $this->rtbMessage->getMessage('apiWrongStatus') . " header: $apiHeader";
             
