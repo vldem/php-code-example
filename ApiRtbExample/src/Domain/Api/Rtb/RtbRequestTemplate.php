@@ -9,13 +9,21 @@ use App\Domain\Service\Helpper;
  */
 final class RtbRequestTemplate
 {
+    /**
+     * @var Helper
+     */
+    private Helper $helper;
 
-    private Helpper $helpper;
-
+    /**
+     * @var array
+     */
     protected $apiUrl = [
         'kru' => 'http://ads4.example.com?c=rtb&m=req&key=100500',
     ];
 
+    /**
+     * @var array
+     */
     protected $requestTemplates = [
         'kru' => "
             {
@@ -48,6 +56,9 @@ final class RtbRequestTemplate
         ",
     ];
 
+    /**
+     * @var array
+     */
     protected $dbQueries = [
         'addRecToRtbStat' => "INSERT into rtbstat (d,bid,request,respcode) values (now(),?,?,?)",
     ];
@@ -55,13 +66,13 @@ final class RtbRequestTemplate
     /**
      * The constructor.
      *
-     * @param Helpper $helper The helpper
+     * @param Helper $helper The helper
      */
     public function __construct(
-        Helpper $helpper
+        Helper $helper
     )
     {
-        $this->helpper = $helpper;
+        $this->helper = $helper;
     }
 
     /**
@@ -74,7 +85,7 @@ final class RtbRequestTemplate
     public function getRequestTemplate(string $bid, array $params = array(), array $values = array()): string
     {
         $xml = $this->requestTemplates[$bid];
-        return  $this->helpper->setValuesToParams( $xml, $params, $values );
+        return  $this->helper->setValuesToParams( $xml, $params, $values );
     }
 
 
@@ -88,7 +99,7 @@ final class RtbRequestTemplate
     public function getApiURL( string $bid, array $params = array(), array $values = array() ): string
     {
         $url = $this->apiUrl[$bid];
-        return  $this->helpper->setValuesToParams( $url, $params, $values );
+        return  $this->helper->setValuesToParams( $url, $params, $values );
     }
 
     /**
