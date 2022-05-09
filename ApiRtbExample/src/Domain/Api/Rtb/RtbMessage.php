@@ -2,15 +2,21 @@
 
 namespace App\Domain\Api\Rtb;
 
-use App\Domain\Service\Helpper;
+use App\Domain\Service\Helper;
 
 /**
  * Service.
  */
 final class RtbMessage
 {
-    private Helpper $helpper;
+    /**
+     * @var Helper
+     */
+    private Helper $helper;
 
+    /**
+     * @var array
+     */
     private $messages = [
         'apiWrongStatus' => "no bid. Respond status is not correct. See the respond header for detailed information.",
         'apiNoBid' => "no bid",
@@ -20,11 +26,11 @@ final class RtbMessage
     /**
      * The constructor.
      *
-     * @param Helpper $helper The helpper
+     * @param Helper $helper The helper
      */
-    public function __construct( Helpper $helpper )
+    public function __construct( Helper $helper )
     {
-        $this->helpper = $helpper;
+        $this->helper = $helper;
     }
 
     /**
@@ -37,7 +43,7 @@ final class RtbMessage
     public function getMessage( string $name, $params=array(), $values=array() ): string
     {
         $msg =  $this->messages[$name];
-        return  $this->helpper->setValuesToParams( $msg, $params, $values );
+        return  $this->helper->setValuesToParams( $msg, $params, $values );
     }
 
 }
