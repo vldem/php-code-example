@@ -16,7 +16,7 @@ $container = $containerBuilder->build();
 $app = $container->get(App::class);
 
 // Register routes
-$app->get('/api/queue/send/{brokerId}', \App\Action\Api\Offer\CreateOfferMessageAction::class);
+$app->get('/api/1/queue/send/{brokerId}', \App\Action\Api\Offer\CreateOfferMessageAction::class);
 
 // Register middleware
 (require __DIR__ . '/../../config/api/middleware.php')($app);
